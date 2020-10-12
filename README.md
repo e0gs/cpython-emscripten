@@ -33,7 +33,9 @@ Some of the examples use Cython which can be installed with pip. Versions
 # compiling linux
 
 Download https://github.com/emscripten-core/emsdk
+
 And needed libraries for python, see https://devguide.python.org/setup/#install-dependencies
+
 Atm, requires gcc/g++ multilib for x32 host parser
 
 Install and activate 1.38.48 emsdk
