@@ -1,0 +1,66 @@
+diff --color -ru a/config.sub b/config.sub
+--- a/config.sub	2020-10-12 14:08:26.214072219 +0200
++++ b/config.sub	2020-10-12 14:44:02.987671524 +0200
+@@ -315,6 +315,7 @@
+ 	| ubicom32 \
+ 	| v850 | v850e | v850e1 | v850e2 | v850es | v850e2v3 \
+ 	| we32k \
++	| wasm32 \
+ 	| x86 | xc16x | xstormy16 | xtensa \
+ 	| z8k | z80)
+ 		basic_machine=$basic_machine-unknown
+@@ -1514,6 +1515,8 @@
+ 		;;
+ 	-emscripten)
+ 		;;
++	-wasi)
++		;;
+ 	-nacl*)
+ 		;;
+ 	-none)
+diff --color -ru a/configure b/configure
+--- a/configure	2020-10-12 14:05:38.299009734 +0200
++++ b/configure	2020-10-12 14:18:16.426990883 +0200
+@@ -3323,6 +3323,9 @@
+ 	asmjs-*-*)
+ 		ac_sys_system=Emscripten
+ 		;;
++  wasm32-*)
++    ac_sys_system=Emscripten
++    ;;
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"
+@@ -3371,6 +3374,9 @@
+ 	asmjs-*-*)
+ 		_host_cpu=
+ 		;;
++  *-wasi)
++    _host_cpu=
++    ;;
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"
+diff --color -ru a/configure.ac b/configure.ac
+--- a/configure.ac	2020-10-12 14:06:57.574121554 +0200
++++ b/configure.ac	2020-10-12 14:07:41.454057570 +0200
+@@ -377,6 +377,9 @@
+ 	asmjs-*-*)
+ 		ac_sys_system=Emscripten
+ 		;;
++	wasm32-*)
++		ac_sys_system=Emscripten
++		;;
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"
+@@ -425,6 +428,9 @@
+ 	asmjs-*-*)
+ 		_host_cpu=
+ 		;;
++	wasm32-*)
++		_host_cpu=
++		;;
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"
