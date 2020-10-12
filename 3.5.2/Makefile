@@ -44,7 +44,7 @@ $(HOSTPYTHON) $(HOSTPGEN): $(TARBALL)
 	[ -d $(HOSTBUILD) ] || tar -C $(HOSTINSTALL) -xf $(TARBALL)
 	( \
 		cd $(HOSTBUILD); \
-		./configure --prefix=$(HOSTINSTALL) && \
+		CFLAGS=-m32 LDFLAGS=-m32 ./configure --prefix=$(HOSTINSTALL) && \
 		make install && \
 		cp Parser/pgen$(EXE) $(HOSTINSTALL)/bin/ && \
 		make distclean \
@@ -61,7 +61,7 @@ $(BUILD)/Makefile: $(BUILD)/.patched
 	cp config.site $(BUILD)/
 	( \
 		cd $(BUILD); \
-		CONFIG_SITE=./config.site READELF=true emconfigure ./configure --without-threads --without-pymalloc --disable-shared --disable-ipv6 --without-gcc --host=asmjs-unknown-emscripten --build=$(shell $(BUILD)/config.guess) --prefix=$(INSTALL) ; \
+		CFLAGS=-m32 LDFLAGS=-m32 CONFIG_SITE=./config.site READELF=true emconfigure ./configure --without-threads --without-pymalloc --disable-shared --disable-ipv6 --without-gcc --host=wasm32-wasi --build=$(shell $(BUILD)/config.guess) --prefix=$(INSTALL) ; \
 	)
 
 
@@ -69,9 +69,9 @@ $(BUILD)/$(LIB): $(BUILD)/Makefile $(HOSTPYTHON) $(HOSTPGEN) Setup.local
 	cp Setup.local $(BUILD)/Modules/
 	( \
 		cd $(BUILD)/Modules/zlib; \
-		emconfigure ./configure --static \
+		CFLAGS=-m32 LDFLAGS=-m32 emconfigure ./configure --static \
 	)
 	( \
 		cd $(BUILD); \
-		emmake make HOSTPYTHON=$(HOSTPYTHON) HOSTPGEN=$(HOSTPGEN) CROSS_COMPILE=yes $(LIB) \
+		CFLAGS=-Wno-implicit-function-declaration emmake make HOSTPYTHON=$(HOSTPYTHON) HOSTPGEN=$(HOSTPGEN) CROSS_COMPILE=yes $(LIB) \
 	)
