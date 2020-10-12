@@ -26,6 +26,32 @@ tested.
 Some of the examples use Cython which can be installed with pip. Versions
 0.20.1 and above have been used successfully.
 
+---
+
+## Emscripten 1.38.48 have been tested, 1.39.0 and later seem to fail
+
+# compiling linux
+
+Download https://github.com/emscripten-core/emsdk
+And needed libraries for python, see https://devguide.python.org/setup/#install-dependencies
+Atm, requires gcc/g++ multilib for x32 host parser
+
+Install and activate 1.38.48 emsdk
+```
+./emsdk install 1.38.48
+./emsdk activate 1.38.48
+source <EMSDK path>/emsdk_env.sh
+```
+
+enter cpython-emscripten/3.5.2 and run
+```
+make
+```
+
+And you should have a nice static wasm32-wasi libpython3.5.a in installs/python-3.5.2/
+
+
+
 # Credits
 
 Many of the patches and instructions are derived from the excellent work of
